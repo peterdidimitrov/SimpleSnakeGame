@@ -21,11 +21,23 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
+            <TextBlock x:Name="HighScoreText"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Text="High Score: 0"
+                   FontSize="15"
+                   Margin="10"/>
             <TextBlock x:Name="ScoreText"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Center"
-                   Text="Score 0"
-                   FontSize="22"
+                   Text="     Score: 0"
+                   FontSize="15"
+                   Margin="10"/>
+            <TextBlock x:Name="Speed"
+                   HorizontalAlignment="Right"
+                   VerticalAlignment="Center"
+                   Text="Speed: 0"
+                   FontSize="15"
                    Margin="10"/>
             <Border x:Name="GridBoarder"
                 Grid.Row="1"

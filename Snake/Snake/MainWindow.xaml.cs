@@ -1,6 +1,7 @@
 ﻿using Snake.Assets;
 using Snake.Enums;
 using Snake.Models;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
@@ -33,13 +34,19 @@ namespace Snake
         private readonly Image[,] gridImages;
         private GameState gameState;
         private bool gameRunning;
+        private decimal sleepTime;
 
         public MainWindow()
         {
             InitializeComponent();
             gridImages = SetupGrid();
             gameState = new GameState(rows, cols);
+            sleepTime = 200;
+
+            SpeedOfSnake = 1;
         }
+        public int HighScore { get; private set; }
+        public int SpeedOfSnake { get; private set; }
         private async Task RunGame()
         {
             Draw();
@@ -88,16 +95,26 @@ namespace Snake
         {
             while (!gameState.GameOver)
             {
-                await Task.Delay(100);
+                int delay = (int)(sleepTime -= 0.1m);
+                if (sleepTime % 10 == 0)
+                {
+                    SpeedOfSnake++;
+                }
+
+                await Task.Delay(delay);
                 gameState.Move();
                 Draw();
             }
+            sleepTime = 200;
+            SpeedOfSnake = 1;
         }
         private Image[,] SetupGrid()
         {
             Image[,] images = new Image[rows, cols];
             GameGrid.Rows = rows;
             GameGrid.Columns = cols;
+            GameGrid.Width = GameGrid.Height * (cols / (double)rows);
+
             for (int r = 0; r < rows; r++)
             {
                 for (int c = 0; c < cols; c++)
@@ -117,8 +134,16 @@ namespace Snake
         {
             DrawGrid();
             DrawSnakeHead();
-            ScoreText.Text = $"SCORE {gameState.Score}";
+            ShowGameInfo();
         }
+
+        private void ShowGameInfo()
+        {
+            HighScoreText.Text = $"HIGH SCORE: {HighScore}";
+            ScoreText.Text = $"     SCORE: {gameState.Score}";
+            Speed.Text = $"SPEED: {SpeedOfSnake}";
+        }
+
         private void DrawGrid()
         {
             for (int r = 0; r < rows; r++)
@@ -165,6 +190,11 @@ namespace Snake
             await DrawDeadSnake();
             await Task.Delay(1000);
             Overlay.Visibility = Visibility.Visible;
+            if (HighScore < gameState.Score)
+            {
+                HighScore = gameState.Score;
+            }
+            ShowGameInfo();
             OverlayText.Text = "PRESS ANY KEY TO START";
         }
     }
