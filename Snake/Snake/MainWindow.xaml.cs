@@ -42,11 +42,8 @@ namespace Snake
             gridImages = SetupGrid();
             gameState = new GameState(rows, cols);
             sleepTime = 200;
-
-            SpeedOfSnake = 1;
         }
         public int HighScore { get; private set; }
-        public int SpeedOfSnake { get; private set; }
         private async Task RunGame()
         {
             Draw();
@@ -98,7 +95,7 @@ namespace Snake
                 int delay = (int)(sleepTime -= 0.1m);
                 if (sleepTime % 10 == 0)
                 {
-                    SpeedOfSnake++;
+                    gameState.SpeedOfSnake++;
                 }
 
                 await Task.Delay(delay);
@@ -106,7 +103,7 @@ namespace Snake
                 Draw();
             }
             sleepTime = 200;
-            SpeedOfSnake = 1;
+            gameState.SpeedOfSnake = 1;
         }
         private Image[,] SetupGrid()
         {
@@ -135,13 +132,6 @@ namespace Snake
             DrawGrid();
             DrawSnakeHead();
             ShowGameInfo();
-        }
-
-        private void ShowGameInfo()
-        {
-            HighScoreText.Text = $"HIGH SCORE: {HighScore}";
-            ScoreText.Text = $"     SCORE: {gameState.Score}";
-            Speed.Text = $"SPEED: {SpeedOfSnake}";
         }
 
         private void DrawGrid()
@@ -184,6 +174,12 @@ namespace Snake
                 OverlayText.Text = i.ToString();
                 await Task.Delay(500);
             }
+        }
+        private void ShowGameInfo()
+        {
+            HighScoreText.Text = $"HIGH SCORE: {HighScore}";
+            ScoreText.Text = $"     SCORE: {gameState.Score}";
+            Speed.Text = $"SPEED: {gameState.SpeedOfSnake}";
         }
         private async Task ShowGameOver()
         {

@@ -18,6 +18,7 @@ namespace Snake.Models
             Grid = new GridValue[rows, cols];
             Dir = Direction.Right;
 
+            SpeedOfSnake = 1;
 
             AddSnake();
             AddFood();
@@ -29,6 +30,7 @@ namespace Snake.Models
         public int Score { get; private set; }
      
         public bool GameOver { get; private set; }
+        public int SpeedOfSnake { get; set; }
         private void AddSnake()
         {
             int r = Rows / 2;

@@ -17,7 +17,7 @@ public class Direction
     public int RowOffset { get; }
     public int ColumnOffset { get; }
 
-    //The next parth of code is need to compare the Directions
+    //The next parth of code is needed to compare the Directions
     //Override Equals and GetHashCode to use class as the key in a Dictionary
     public override bool Equals(object? obj)
     {
