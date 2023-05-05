@@ -13,6 +13,7 @@ namespace Snake.Assets
         public readonly static ImageSource Food = LoadImage("Food.png");
         public readonly static ImageSource DeadBody = LoadImage("DeadBody.png");
         public readonly static ImageSource DeadHead = LoadImage("DeadHead.png");
+        public readonly static ImageSource Bonus = LoadImage("Bonus.png");
         private static ImageSource LoadImage(string fileName)
         {
             return new BitmapImage(new Uri($"Assets/{fileName}", UriKind.Relative));

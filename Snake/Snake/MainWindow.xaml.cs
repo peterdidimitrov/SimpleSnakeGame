@@ -20,7 +20,8 @@ namespace Snake
         {
             {GridValue.EmptySpace, Images.Empty },
             {GridValue.Snake, Images.Body },
-            {GridValue.Food, Images.Food }
+            {GridValue.Food, Images.Food },
+            {GridValue.Bonus, Images.Bonus }
         };
 
         private readonly Dictionary<Direction, int> dirToRotstion = new()

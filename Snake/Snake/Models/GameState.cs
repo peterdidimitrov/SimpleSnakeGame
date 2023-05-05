@@ -19,18 +19,24 @@ namespace Snake.Models
             Dir = Direction.Right;
 
             SpeedOfSnake = 1;
+            IsThereBonus = false;
 
             AddSnake();
             AddFood();
         }
+
+
         public int Rows { get; }
         public int Cols { get; }
         public GridValue[,] Grid { get; }
         public Direction Dir { get; private set; }
+        public Position PositionOfBonus { get; private set; }
+        public int MoveCount { get; private set; }
         public int Score { get; private set; }
-     
         public bool GameOver { get; private set; }
+        public bool IsThereBonus { get; private set; }
         public int SpeedOfSnake { get; set; }
+
         private void AddSnake()
         {
             int r = Rows / 2;
@@ -64,6 +70,18 @@ namespace Snake.Models
             }
             Position pos = empty[random.Next(empty.Count)];
             Grid[pos.Row, pos.Colum] = GridValue.Food;
+        }
+        private void AddBonus()
+        {
+            List<Position> empty = new List<Position>(EmptyPosition());
+
+            if (empty.Count == 0)
+            {
+                return;
+            }
+            Position pos = empty[random.Next(empty.Count)];
+            PositionOfBonus = pos;
+            Grid[pos.Row, pos.Colum] = GridValue.Bonus;
         }
         public Position HeadPosition()
         {
@@ -132,6 +150,8 @@ namespace Snake.Models
 
         public void Move()
         {
+            MoveCount++;
+
             if (dirChanges.Count > 0)
             {
                 Dir = dirChanges.First.Value;
@@ -155,6 +175,29 @@ namespace Snake.Models
                 Score++;
                 AddFood();
             }
+            else if (hit == GridValue.Bonus)
+            {
+                AddHead(newHeadPosition);
+                AddHead(newHeadPosition);
+                Score += 3;
+                IsThereBonus = false;
+            }
+            if (IsThereBonus == false && MoveCount % 40 == 0)
+            {
+                AddBonus();
+                IsThereBonus = true;
+            }
+            if (IsThereBonus == true && MoveCount % 70 == 0)
+            {
+                RemoveBonus();
+                IsThereBonus = false;
+                PositionOfBonus = default;
+                MoveCount = 0;
+            }
+        }
+        private void RemoveBonus()
+        {
+            Grid[PositionOfBonus.Row, PositionOfBonus.Colum] = GridValue.EmptySpace;
         }
     }
 }
