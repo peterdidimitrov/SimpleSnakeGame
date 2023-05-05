@@ -11,3 +11,7 @@ The game is Windows Desktop App C# (WPF).
 
 # Controlers:
 Arrow keys.
+
+#Screenshot:
+
+![StartTheGame](https://user-images.githubusercontent.com/113916372/236402118-e64b6ead-045a-4d6c-9569-040036dfa548.png)
